@@ -58,30 +58,30 @@ public class HospitalManagementSystem {
         System.out.println("Enter appointment date (YYYY-MM-DD)");
         String appointmentDate = scanner.next();
         if (patient.getPatientById(patientId) && doctor.getDoctorById(doctorId)) {
-        }
-        if (checkDoctorAvaibality(doctorId, appointmentDate, connection)) {
-            String appointmentQuery = "INSERT INTO appointments(patient_id,doctor_id,appointment_date) VALUES(?,?,?)";
-            try {
-                PreparedStatement preparedStatement = connection.prepareStatement(appointmentQuery);
-                preparedStatement.setInt(1, patientId);
-                preparedStatement.setInt(2, doctorId);
-                preparedStatement.setString(3, appointmentDate);
-                int rowsAffected = preparedStatement.executeUpdate();
-                if (rowsAffected > 0) {
-                    System.out.println("APPOINTMENT BOOKED");
-                } else {
-                    System.out.println("FAILED TO BOOK APPOINTMENT");
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println("Doctor are not available on this date!!");
-        }
 
-    }else
-    {
-        System.out.println("Either Doctor or Patient docent exist!! ");
+            if (checkDoctorAvaibality(doctorId, appointmentDate, connection)) {
+                String appointmentQuery = "INSERT INTO appointments(patient_id,doctor_id,appointment_date) VALUES(?,?,?)";
+                try {
+                    PreparedStatement preparedStatement = connection.prepareStatement(appointmentQuery);
+                    preparedStatement.setInt(1, patientId);
+                    preparedStatement.setInt(2, doctorId);
+                    preparedStatement.setString(3, appointmentDate);
+                    int rowsAffected = preparedStatement.executeUpdate();
+                    if (rowsAffected > 0) {
+                        System.out.println("APPOINTMENT BOOKED");
+                    } else {
+                        System.out.println("FAILED TO BOOK APPOINTMENT");
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println("Doctor are not available on this date!!");
+            }
+        }else
+        {
+            System.out.println("Either Doctor or Patient docent exist!! ");
+        }
     }
 
 }
@@ -105,6 +105,7 @@ public  static boolean checkDoctorAvaibality(int doctorId, String appointmentDat
         } }catch (Exception e) {
         e.printStackTrace();
     }
+    return false;
             }
 
 
